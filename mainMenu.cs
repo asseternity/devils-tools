@@ -15,9 +15,9 @@ public class mainMenu : MonoBehaviour
         root.style.display = DisplayStyle.None;
         carDrive carScript = car.GetComponent<carDrive>();
         carScript.areWeGoing = true;
-        Invoke("LoadSceneStart", 5f);
+        Invoke("LoadSceneStart", 1.5f);
     }
     void LoadSceneStart() {
-        SceneManager.LoadScene("Scenes/SampleScene");
+        SceneManager.LoadScene("[Scenes]/SampleScene");
     }
 }
