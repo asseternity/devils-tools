@@ -11,11 +11,25 @@ public class introNPC : MonoBehaviour
     // 5) their dialogue shows up
     // 6) and two options under
     public GameObject player;
+    public Camera orbitCamera;
+    public Camera mainCamera;
     bool movementDone = false;
+    bool leaveRotationDone = false;
     public bool timeToTalk = false;
+    public bool timeToLeave = false;
+    void Start() {
+        orbitCamera.enabled = false;
+        mainCamera.enabled = true;
+    }
     void Update() {
         FloatUp();
         RotatePlayer();
+        if (timeToLeave && !leaveRotationDone) {
+            Leave();
+        }
+        if (leaveRotationDone) {
+            Leave2();
+        }
     }
     void FloatUp() {
         if (transform.localPosition.z <= 69) {
@@ -41,5 +55,29 @@ public class introNPC : MonoBehaviour
     }
     void TalkFlag() {
         timeToTalk = true;
+    }
+    void Leave() {
+        if (transform.localRotation.eulerAngles.y != 180f) {
+            Vector3 NPCcurrentEulerAngles = transform.localRotation.eulerAngles;
+            NPCcurrentEulerAngles.y += 5f;
+            transform.localRotation = Quaternion.Euler(NPCcurrentEulerAngles);
+        } else {
+            Invoke("LeaveFlag", 0.5f);
+        }
+    }
+    void LeaveFlag() {
+        leaveRotationDone = true;
+    }
+    void Leave2() {
+        if (transform.localPosition.z >= 50) {
+            Vector3 displacement = new Vector3(0f, 0f, -0.09f);
+            transform.localPosition += displacement;
+        } else {
+            Destroy(gameObject, 0.5f);        
+            mainCamera.enabled = false;
+            orbitCamera.enabled = true;
+            playerScript var_playerScript = player.GetComponent<playerScript>();
+            var_playerScript.movementBlocked = false;
+        }        
     }
 }

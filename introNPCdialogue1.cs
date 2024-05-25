@@ -38,13 +38,21 @@ public class introNPCdialogue1 : MonoBehaviour
         npcName.text = "???";
         npcDialogue.text = "'Oh, was I too quick for you?";
         Button option1 = root.Q<Button>("Option1");
-        option1.text = "O1";
+        option1.text = "Okay, goodbye now. I'd like to explore for myself a little";
+        option1.clicked -= Option1;
+        option1.clicked += Leave;
         Button option2 = root.Q<Button>("Option2");
-        option2.text = "O2";
+        option2.style.display = DisplayStyle.None;
         Button option3 = root.Q<Button>("Option3");
-        option3.text = "O3";
+        option3.style.display = DisplayStyle.None;
         Button option4 = root.Q<Button>("Option4");
-        option4.text = "O4";
+        option4.style.display = DisplayStyle.None;
+    }
 
+    void Leave() {
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        root.style.display = DisplayStyle.None;
+        introNPC NPCscript = NPC.GetComponent<introNPC>();
+        NPCscript.timeToLeave = true;
     }
 }
